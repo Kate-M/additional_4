@@ -1,32 +1,38 @@
 module.exports = function multiply(first, second) {
-  if (parseInt(first) == 0 || parseInt(second) == 0) {
-    return '0';
-  }
+  a = first.split('');
+  b = second.split('');
+  var tempArr = [];
+  for (var i = a.length - 1; i >= 0; i--) {
 
-  first = first.split('').reverse();
-  second = second.split('').reverse();
-  var result = [];
+    for (var j = b.length - 1; j >= 0; j--) {
+      if (tempArr[j] == null) {
 
-  for (var i = 0; i < first.length; i++) {
-    for (var j = 0; j < second.length; j++) {
-      if (!result[i + j]) {
-        result[i + j] = 0;
+        tempArr[j] = 0;
+
       }
+      var summ = a[i] * b[j];
+      //console.log(summ); 
+      tempArr[j] += summ;
+    }
 
-      result[i + j] += first[i] * second[j];
+    tempArr.unshift(0);
+  }
+  tempArr.shift();
+
+  for (var i = tempArr.length - 1; i > 0; i--) {
+    var k = i - 1;
+    if (tempArr[i] >= 10) {
+
+      if (tempArr[k] == null) {
+        tempArr[k] = 0;
+      }
+      var check = parseInt(tempArr[i] / 10);
+      tempArr[k] += check;
+
+      tempArr[i] %= 10;
     }
   }
+  result = tempArr.join('');
 
-  for (var i = 0; i < result.length; i++) {
-    if (result[i] >= 10) {
-      if (!result[i + 1]) {
-        result[i + 1] = 0;
-      }
-
-      result[i + 1] += parseInt(result[i] / 10);
-      result[i] %= 10;
-    }
-  }
-
-  return result.reverse().join('');
+  return result;
 }
